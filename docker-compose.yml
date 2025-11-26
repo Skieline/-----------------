@@ -1,14 +1,18 @@
+
 services:
- postgres:
- container_name: demo_postgres
-    image: "postgres:15"
+  postgres:
+    image: postgres:latest
+    container_name: my_postgres
+    restart: always
     environment:
- POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "password"
-      PGDATA: "/data/postgres"
-    volumes:
- - postgres:/data/postgres
- - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+      POSTGRES_USER: mkyong
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: testdb
     ports:
- - "15432:5432"
-    restart: unless-stopped
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+    driver: local
